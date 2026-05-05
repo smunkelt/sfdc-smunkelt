@@ -6,7 +6,7 @@ A configurable, full-width banner panel for Salesforce Lightning pages. It displ
 
 **Supported targets:** Record Page, App Page, Home Page, Screen Flow
 
-[Full documentation →](documentation/sfdcsm_actionBanner-documentation.html)
+[Full documentation →](https://smunkelt.github.io/sfdc-smunkelt/sfdcsm_actionBanner-documentation.html)
 
 ---
 
@@ -16,4 +16,4 @@ A reusable picklist component for Screen Flows and Lightning Record Pages that r
 
 **Key inputs:** `objectApiName` (required), `fieldApiName` (required), `recordTypeName`, `label`, `required`, `includeNone`
 
-[Full documentation →](documentation/sfdcsm_filteredPicklist-documentation.html)
+[Full documentation →](https://smunkelt.github.io/sfdc-smunkelt/sfdcsm_filteredPicklist-documentation.html)
