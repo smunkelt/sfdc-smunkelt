@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>sfdcsm_FilteredPicklist</masterLabel>
+    <description>Renders a picklist field filtered to the values allowed for a specific record type. Designed for use in Flow Screens and Record Pages.</description>
+
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+
+    <targetConfigs>
+
+        <!-- ── Flow Screen ───────────────────────────────────────────────────── -->
+        <targetConfig targets="lightning__FlowScreen">
+
+            <property
+                name="objectApiName"
+                type="String"
+                label="Object API Name"
+                description="API name of the Salesforce object (e.g. Case, WorkOrder, Account)."
+                required="true"/>
+
+            <property
+                name="recordTypeName"
+                type="String"
+                label="Record Type (Developer Name or ID)"
+                description="Developer name (e.g. SDO_Service_Case) or 15/18-character Salesforce ID of the record type to filter picklist values by. Leave blank to use the Master record type (all values)."/>
+
+            <property
+                name="fieldApiName"
+                type="String"
+                label="Picklist Field API Name"
+                description="API name of the picklist field to render (e.g. Status, Priority, SLA_Type__c)."
+                required="true"/>
+
+            <property
+                name="label"
+                type="String"
+                label="Field Label"
+                description="Label shown above the picklist."
+                default="Select"/>
+
+            <property
+                name="placeholder"
+                type="String"
+                label="Placeholder Text"
+                description="Text shown inside the combobox when no value is selected."
+                default="-- Select --"/>
+
+            <property
+                name="includeNone"
+                type="Boolean"
+                label="Include None Option"
+                description="When enabled, a '--None--' entry is added at the top of the list."
+                default="false"/>
+
+            <property
+                name="required"
+                type="Boolean"
+                label="Required"
+                description="Marks the picklist as a required field."
+                default="false"/>
+
+            <property
+                name="value"
+                type="String"
+                label="Selected Value"
+                description="The picklist value selected by the user. Use as a Flow output variable to pass the selection to the next flow element."/>
+
+        </targetConfig>
+
+        <!-- ── Record Page / App Page / Home Page ────────────────────────────── -->
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage">
+
+            <property
+                name="objectApiName"
+                type="String"
+                label="Object API Name"
+                description="API name of the Salesforce object (e.g. Case, WorkOrder, Account)."
+                required="true"/>
+
+            <property
+                name="recordTypeName"
+                type="String"
+                label="Record Type (Developer Name or ID)"
+                description="Developer name (e.g. SDO_Service_Case) or 15/18-character Salesforce ID of the record type to filter picklist values by. Leave blank to use the Master record type (all values)."/>
+
+            <property
+                name="fieldApiName"
+                type="String"
+                label="Picklist Field API Name"
+                description="API name of the picklist field to render (e.g. Status, Priority, SLA_Type__c)."
+                required="true"/>
+
+            <property
+                name="label"
+                type="String"
+                label="Field Label"
+                description="Label shown above the picklist."
+                default="Select"/>
+
+            <property
+                name="placeholder"
+                type="String"
+                label="Placeholder Text"
+                description="Text shown inside the combobox when no value is selected."
+                default="-- Select --"/>
+
+            <property
+                name="includeNone"
+                type="Boolean"
+                label="Include None Option"
+                description="When enabled, a '--None--' entry is added at the top of the list."
+                default="false"/>
+
+            <property
+                name="required"
+                type="Boolean"
+                label="Required"
+                description="Marks the picklist as a required field."
+                default="false"/>
+
+        </targetConfig>
+
+    </targetConfigs>
+</LightningComponentBundle>

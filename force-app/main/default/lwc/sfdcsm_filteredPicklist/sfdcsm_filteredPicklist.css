@@ -1,0 +1,19 @@
+/* ── Wrapper ────────────────────────────────────────────────────────────────── */
+.fpicklist {
+    display: block;
+    position: relative;
+}
+
+/* ── Spinner: give it a minimum height so the layout does not collapse ──────── */
+.fpicklist__spinner {
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Error message ──────────────────────────────────────────────────────────── */
+.fpicklist__error {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}

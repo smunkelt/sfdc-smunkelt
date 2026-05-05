@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>sfdcsm_FilteredPicklist — Technical Documentation</title>
+<style>
+  /* ── Base ─────────────────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1b1b1b;
+    background: #f3f3f3;
+  }
+
+  /* ── Page wrapper ─────────────────────────────────────────────────────────── */
+  .page { max-width: 960px; margin: 0 auto; background: #fff; padding: 48px 56px 64px; }
+
+  /* ── Header ───────────────────────────────────────────────────────────────── */
+  .doc-header {
+    background: linear-gradient(135deg, #0176d3 0%, #014486 100%);
+    color: #fff;
+    padding: 36px 40px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }
+  .doc-header h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.3px; }
+  .doc-header .subtitle { font-size: 1rem; opacity: 0.85; margin-top: 6px; }
+  .doc-header .meta { font-size: 0.8rem; opacity: 0.65; margin-top: 14px; }
+
+  /* ── Headings ─────────────────────────────────────────────────────────────── */
+  h2 {
+    font-size: 1.25rem; font-weight: 700; color: #0176d3;
+    border-bottom: 2px solid #e5e5e5; padding-bottom: 6px;
+    margin: 40px 0 16px;
+  }
+  h3 { font-size: 1rem; font-weight: 700; color: #1b1b1b; margin: 24px 0 10px; }
+
+  /* ── Paragraphs & lists ───────────────────────────────────────────────────── */
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 0 0 12px 20px; }
+  li { margin-bottom: 5px; }
+
+  /* ── Code & inline code ───────────────────────────────────────────────────── */
+  code {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.85em;
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: #032d60;
+  }
+  pre {
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: 0.83rem; color: #032d60; }
+
+  /* ── Tables ───────────────────────────────────────────────────────────────── */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88rem; }
+  th {
+    background: #0176d3; color: #fff; font-weight: 600;
+    text-align: left; padding: 9px 12px;
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fb; }
+  td code { font-size: 0.82em; }
+
+  /* ── Note / callout ───────────────────────────────────────────────────────── */
+  .note {
+    background: #eff6ff;
+    border-left: 4px solid #0176d3;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+  }
+  .note.warn {
+    background: #fff8e1;
+    border-left-color: #f5a623;
+  }
+  .note strong { display: block; margin-bottom: 4px; }
+
+  /* ── File tree ────────────────────────────────────────────────────────────── */
+  .filetree {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.84rem;
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    padding: 16px 20px;
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .filetree .dir  { color: #0176d3; font-weight: 700; }
+  .filetree .file { color: #1b1b1b; }
+  .filetree .note { background: none; border: none; padding: 0;
+                    color: #6e6e6e; font-style: italic; font-size: 0.8rem; }
+
+  /* ── Badge pills ──────────────────────────────────────────────────────────── */
+  .badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 12px; margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-req  { background: #fde8e8; color: #c23934; }
+  .badge-out  { background: #e3f5e3; color: #2e7d32; }
+  .badge-bool { background: #e8f0fe; color: #0176d3; }
+
+  /* ── Component preview mock ───────────────────────────────────────────────── */
+  .preview-wrap {
+    background: #f3f3f3;
+    border: 1px solid #d8dde6;
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin: 20px 0;
+  }
+  .preview-label {
+    font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .preview-label .req-star { color: #c23934; font-size: 1rem; }
+  .preview-combobox {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    padding: 0 12px;
+    height: 36px;
+    width: 340px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #706e6b;
+    justify-content: space-between;
+  }
+  .preview-combobox .chevron { color: #706e6b; font-size: 0.75rem; }
+  .preview-dropdown {
+    width: 340px;
+    background: #fff;
+    border: 1px solid #dddbda;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .preview-option {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f3f3f3;
+    color: #1b1b1b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .preview-option.selected { background: #e8f4fd; font-weight: 600; color: #0176d3; }
+  .preview-option .check { color: #0176d3; font-size: 0.75rem; }
+  .preview-option.none-opt { color: #706e6b; font-style: italic; }
+
+  /* ── Architecture diagram ─────────────────────────────────────────────────── */
+  .arch-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 16px 0;
+  }
+  .arch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+  }
+  .arch-node {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 0.82rem;
+  }
+  .arch-node.lwc   { background: #e8f4fd; border: 1px solid #0176d3; color: #0176d3; }
+  .arch-node.wire  { background: #f4f6f9; border: 1px solid #8e9bae; color: #444; }
+  .arch-node.apex  { background: #fdf3e3; border: 1px solid #f5a623; color: #7a4600; }
+  .arch-node.plat  { background: #e3f5e3; border: 1px solid #2e7d32; color: #2e7d32; }
+  .arch-arrow { color: #8e9bae; font-size: 1.1rem; }
+  .arch-note  { color: #6e6e6e; font-style: italic; font-size: 0.78rem; }
+
+  /* ── Print ────────────────────────────────────────────────────────────────── */
+  @media print {
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    body { background: #fff; font-size: 11pt; }
+    .page { padding: 0; max-width: 100%; }
+    h2 { page-break-after: avoid; }
+    table, pre, .note, .preview-wrap, .filetree { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="doc-header">
+    <h1>sfdcsm_FilteredPicklist</h1>
+    <div class="subtitle">Lightning Web Component — Technical Reference</div>
+    <div class="meta">API Version 62.0 &nbsp;·&nbsp; Author: sfdcsm &nbsp;·&nbsp; Last updated: April 2026</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       1. OVERVIEW
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>1. Overview</h2>
+  <p>
+    <strong>sfdcsm_FilteredPicklist</strong> is a reusable Lightning Web Component that renders
+    a picklist field whose available values are automatically filtered to those permitted
+    for a specific Salesforce record type. It is designed for use in <strong>Screen Flows</strong>
+    and <strong>Lightning Record Pages</strong> (App Builder).
+  </p>
+  <p>
+    Unlike placing a standard picklist field directly on a flow screen — which always shows
+    all picklist values — this component respects record-type picklist filters, ensuring
+    users only see the values that are valid for the selected record type.
+  </p>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li>Filters picklist values to a specific record type — developer name <em>or</em> record type ID accepted</li>
+    <li>Blank record type → master record type used (shows all values)</li>
+    <li>Flow-ready: output variable, <code>FlowAttributeChangeEvent</code>, and <code>validate()</code> all implemented</li>
+    <li>Required field enforcement blocks flow navigation when no value is selected</li>
+    <li>Optional "--None--" entry at the top of the list</li>
+    <li>Loading spinner and SLDS-styled error handling built in</li>
+    <li>No Apex required for static configuration; Apex used only for developer-name resolution</li>
+  </ul>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       2. COMPONENT PREVIEW
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>2. Component Preview</h2>
+
+  <h3>2.1 Default state (closed)</h3>
+  <div class="preview-wrap">
+    <div class="preview-label">Case Status <span class="req-star">*</span></div>
+    <div class="preview-combobox">
+      <span>-- Select --</span>
+      <span class="chevron">▾</span>
+    </div>
+  </div>
+
+  <h3>2.2 Open state — values filtered to record type "SDO_Service_Case"</h3>
+  <div class="preview-wrap">
+    <div class="preview-label">Case Status <span class="req-star">*</span></div>
+    <div class="preview-combobox">
+      <span>-- Select --</span>
+      <span class="chevron">▾</span>
+    </div>
+    <div class="preview-dropdown">
+      <div class="preview-option none-opt">--None--</div>
+      <div class="preview-option selected"><span class="check">✔</span> New</div>
+      <div class="preview-option">Working</div>
+      <div class="preview-option">Escalated</div>
+      <div class="preview-option">Closed</div>
+    </div>
+  </div>
+
+  <h3>2.3 Required validation — user clicks Next without selecting</h3>
+  <div class="preview-wrap" style="border-color:#c23934;">
+    <div class="preview-label">Case Status <span class="req-star">*</span></div>
+    <div class="preview-combobox" style="border-color:#c23934; border-width:2px;">
+      <span style="color:#706e6b;">-- Select --</span>
+      <span class="chevron">▾</span>
+    </div>
+    <div style="color:#c23934; font-size:0.78rem; margin-top:4px;">Please select a value.</div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       3. PARAMETERS
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>3. Parameters</h2>
+
+  <h3>3.1 Input Parameters</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>objectApiName</code> <span class="badge badge-req">required</span></td>
+        <td>String</td>
+        <td>Yes</td>
+        <td>—</td>
+        <td>
+          API name of the Salesforce object whose picklist field you want to display.
+          Examples: <code>Case</code>, <code>WorkOrder</code>, <code>Account</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>recordTypeName</code></td>
+        <td>String</td>
+        <td>No</td>
+        <td>—</td>
+        <td>
+          Identifies the record type to filter picklist values by. Accepts two formats:
+          <ul>
+            <li><strong>Developer name</strong> — e.g. <code>SDO_Service_Case</code>. Resolved to an ID via Apex SOQL.</li>
+            <li><strong>Salesforce ID</strong> — 15 or 18-character record type ID, e.g. <code>012Wt000000Kb3BIAS</code>. Used directly without an Apex call.</li>
+          </ul>
+          Leave blank to use the <strong>master record type</strong>, which includes all picklist values.
+          <br/><br/>
+          <strong>Tip:</strong> In a flow, pass <code>{!$Record.RecordTypeId}</code> to automatically
+          use the record type of the current record.
+        </td>
+      </tr>
+      <tr>
+        <td><code>fieldApiName</code> <span class="badge badge-req">required</span></td>
+        <td>String</td>
+        <td>Yes</td>
+        <td>—</td>
+        <td>
+          API name of the picklist field to render.
+          Examples: <code>Status</code>, <code>Priority</code>, <code>SDO_Service_SLA_Type__c</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>label</code></td>
+        <td>String</td>
+        <td>No</td>
+        <td><code>Select</code></td>
+        <td>Label displayed above the picklist field.</td>
+      </tr>
+      <tr>
+        <td><code>placeholder</code></td>
+        <td>String</td>
+        <td>No</td>
+        <td><code>-- Select --</code></td>
+        <td>Placeholder text shown inside the combobox when no value is selected.</td>
+      </tr>
+      <tr>
+        <td><code>includeNone</code> <span class="badge badge-bool">Boolean</span></td>
+        <td>Boolean</td>
+        <td>No</td>
+        <td><code>false</code></td>
+        <td>
+          When <code>true</code>, adds a <em>--None--</em> entry at the top of the option list,
+          allowing the user to clear the selection.
+        </td>
+      </tr>
+      <tr>
+        <td><code>required</code> <span class="badge badge-bool">Boolean</span></td>
+        <td>Boolean</td>
+        <td>No</td>
+        <td><code>false</code></td>
+        <td>
+          Marks the picklist as required. Displays a red asterisk next to the label.
+          When the user tries to navigate to the next screen without selecting a value,
+          the flow is blocked and an error is displayed (see Section 5).
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.2 Output Parameter (Flow only)</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>value</code> <span class="badge badge-out">output</span></td>
+        <td>String</td>
+        <td>
+          The API value of the picklist option selected by the user (e.g. <code>Working</code>,
+          <code>Escalated</code>). Map this to a flow variable in Flow Builder's
+          <strong>Outputs</strong> tab to use the selected value in subsequent flow elements
+          such as Update Records, Decisions, or Apex Actions.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       4. USAGE EXAMPLES
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>4. Usage Examples</h2>
+
+  <h3>4.1 Flow Screen — filtered by developer name</h3>
+  <p>Display the <code>Status</code> picklist for Case records of record type <code>SDO_Service_Case</code>:</p>
+  <table>
+    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Object API Name</td><td><code>Case</code></td></tr>
+      <tr><td>Record Type (Developer Name or ID)</td><td><code>SDO_Service_Case</code></td></tr>
+      <tr><td>Picklist Field API Name</td><td><code>Status</code></td></tr>
+      <tr><td>Field Label</td><td><code>Case Status</code></td></tr>
+      <tr><td>Include None Option</td><td><code>false</code></td></tr>
+      <tr><td>Required</td><td><code>true</code></td></tr>
+      <tr><td>Selected Value</td><td>→ map to flow variable <code>varNewStatus</code></td></tr>
+    </tbody>
+  </table>
+  <p>
+    After the user selects a value and clicks <strong>Next</strong>, the flow variable
+    <code>varNewStatus</code> holds the selected picklist API value and can be used in an
+    <em>Update Records</em> element to set <code>Case.Status</code>.
+  </p>
+
+  <h3>4.2 Flow Screen — using the current record's record type ID</h3>
+  <p>
+    When the flow is launched from a record page, pass the record's own record type ID
+    so the picklist is always filtered correctly regardless of which record type was assigned:
+  </p>
+  <table>
+    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Object API Name</td><td><code>Case</code></td></tr>
+      <tr><td>Record Type (Developer Name or ID)</td><td><code>{!$Record.RecordTypeId}</code></td></tr>
+      <tr><td>Picklist Field API Name</td><td><code>Priority</code></td></tr>
+      <tr><td>Field Label</td><td><code>Priority</code></td></tr>
+      <tr><td>Required</td><td><code>true</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.3 Flow Screen — all values (no record type filter)</h3>
+  <p>Leave <strong>Record Type</strong> blank to show all active picklist values:</p>
+  <table>
+    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Object API Name</td><td><code>Case</code></td></tr>
+      <tr><td>Record Type (Developer Name or ID)</td><td><em>(leave blank)</em></td></tr>
+      <tr><td>Picklist Field API Name</td><td><code>Type</code></td></tr>
+      <tr><td>Field Label</td><td><code>Case Type</code></td></tr>
+      <tr><td>Include None Option</td><td><code>true</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.4 Record Page (App Builder)</h3>
+  <p>
+    Drop the component onto a Lightning Record Page. Set <code>objectApiName</code> and
+    <code>fieldApiName</code> in the property panel. The <code>value</code> output variable
+    is not available in App Builder; wire the component to an Apex action or LWC parent
+    if you need to act on the selection.
+  </p>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       5. FLOW VALIDATION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>5. Flow Validation</h2>
+  <p>
+    The component implements the <code>validate()</code> method required by the Flow runtime.
+    When the user clicks <strong>Next</strong> or <strong>Finish</strong> on the screen:
+  </p>
+  <ol>
+    <li>The Flow runtime calls <code>validate()</code> on every component on the screen.</li>
+    <li>If <code>required = true</code> and no value has been selected, <code>validate()</code>
+        returns <code>{ isValid: false, errorMessage: 'Please select a value.' }</code>.</li>
+    <li>The combobox's native SLDS validation UI is triggered (<code>reportValidity()</code>),
+        showing a red border and inline error message directly below the field.</li>
+    <li>The flow footer displays "Fix errors before continuing" and navigation is blocked.</li>
+    <li>Once the user selects a value and clicks Next again, <code>validate()</code> returns
+        <code>{ isValid: true }</code> and navigation proceeds.</li>
+  </ol>
+
+  <div class="note">
+    <strong>Important:</strong> Without the <code>validate()</code> method, the flow treats the
+    component as always valid and allows navigation even when no value has been selected,
+    regardless of the <code>required</code> setting.
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       6. TECHNICAL ARCHITECTURE
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>6. Technical Architecture</h2>
+  <p>
+    The component uses three wire adapters in sequence. Each one feeds the next:
+  </p>
+
+  <div class="arch-box">
+    <div class="arch-row">
+      <div class="arch-node lwc">sfdcsm_filteredPicklist</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node wire">Wire 1: getObjectInfo</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-note">validates object, builds "Case.Status" token, caches master RT ID</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-node lwc">sfdcsm_filteredPicklist</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node apex">Wire 2: resolveRecordTypeId (Apex)</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-note">fires only for developer names — SOQL on RecordType object</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-node lwc">sfdcsm_filteredPicklist</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node wire">Wire 3: getPicklistValues</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-note">fires once _recordTypeId + _qualifiedField are both resolved</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-node plat">lightning-combobox</div>
+      <div class="arch-arrow">←</div>
+      <div class="arch-note">renders the filtered options list</div>
+    </div>
+  </div>
+
+  <h3>6.1 Record type resolution logic</h3>
+  <table>
+    <thead><tr><th>recordTypeName value</th><th>Path taken</th><th>Apex fired?</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><em>(blank)</em></td>
+        <td>Master record type ID from Wire 1 (<code>getObjectInfo</code>)</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td><code>SDO_Service_Case</code> (developer name)</td>
+        <td>Wire 2 Apex SOQL: <code>WHERE SObjectType='Case' AND DeveloperName='SDO_Service_Case'</code></td>
+        <td>Yes (cacheable)</td>
+      </tr>
+      <tr>
+        <td><code>012Wt000000Kb3BIAS</code> (ID)</td>
+        <td>Assigned directly in the property setter — no extra wire call</td>
+        <td>No</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Caching:</strong> The Apex method is annotated <code>@AuraEnabled(cacheable=true)</code>.
+    Salesforce caches the result in the Lightning Data Service (LDS) cache. Subsequent renders
+    with the same object + developer name combination do not issue new server calls.
+  </div>
+
+  <h3>6.2 Why Apex is needed for developer names</h3>
+  <p>
+    The <code>getObjectInfo</code> wire adapter returns a <code>RecordTypeInfo</code> object per
+    record type containing <code>name</code> (the UI label), <code>recordTypeId</code>, and
+    <code>master</code>. The <strong>developer name</strong> is not reliably present in this
+    response across all org configurations and API versions. Since labels can differ from
+    developer names (e.g. the <code>SDO_Service_Case</code> record type has the label
+    <em>"Case"</em>), matching on the label would silently fail. The Apex SOQL query on the
+    <code>RecordType</code> sObject is the only unambiguous resolution mechanism.
+  </p>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       7. FILES & DEPLOYMENT
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>7. Files &amp; Deployment</h2>
+
+  <div class="filetree">
+    <span class="dir">force-app/main/default/</span><br/>
+    ├── <span class="dir">lwc/sfdcsm_filteredPicklist/</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_filteredPicklist.html</span> &nbsp;<span class="note">– Template (combobox, spinner, error states)</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_filteredPicklist.js</span> &nbsp;<span class="note">– Controller (wire adapters, validation, flow events)</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_filteredPicklist.css</span> &nbsp;<span class="note">– Styling</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_filteredPicklist.js-meta.xml</span> &nbsp;<span class="note">– Metadata (targets, property definitions)</span><br/>
+    │&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_filteredPicklist.svg</span> &nbsp;<span class="note">– Component icon shown in App Builder &amp; Flow Builder</span><br/>
+    └── <span class="dir">classes/</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_FilteredPicklistController.cls</span> &nbsp;<span class="note">– Apex controller (developer name → record type ID)</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_FilteredPicklistController.cls-meta.xml</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_FilteredPicklistController_Test.cls</span> &nbsp;<span class="note">– Apex test class</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_FilteredPicklistController_Test.cls-meta.xml</span>
+  </div>
+
+  <p>Deploy all nine files together using SFDX:</p>
+  <p><code>sf project deploy start --source-dir force-app</code></p>
+
+  <div class="note">
+    <strong>Permission:</strong> The running user must have access to the Apex class
+    <code>sfdcsm_FilteredPicklistController</code> via their Profile or a Permission Set.
+    The class uses <code>with sharing</code>, so the user must also have read access
+    to the <code>RecordType</code> sObject (standard in all profiles).
+  </div>
+
+  <h3>7.1 Test Class — sfdcsm_FilteredPicklistController_Test</h3>
+  <p>
+    The test class covers all branches of <code>resolveRecordTypeId()</code>. Because
+    <code>RecordType</code> records cannot be created via DML in Apex tests, the positive
+    test queries an existing active record type from the org.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Test method</th><th>Scenario</th><th>Lines covered</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>resolveRecordTypeId_blankSObjectType_returnsNull</code></td>
+        <td>Empty string <code>sObjectType</code> → guard clause fires, returns <code>null</code></td>
+        <td>22–24</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_nullSObjectType_returnsNull</code></td>
+        <td><code>null</code> <code>sObjectType</code> → guard clause fires, returns <code>null</code></td>
+        <td>22–24</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_blankDeveloperName_returnsNull</code></td>
+        <td>Empty string <code>developerName</code> → guard clause fires, returns <code>null</code></td>
+        <td>22–24</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_nullDeveloperName_returnsNull</code></td>
+        <td><code>null</code> <code>developerName</code> → guard clause fires, returns <code>null</code></td>
+        <td>22–24</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_bothBlank_returnsNull</code></td>
+        <td>Both parameters blank → guard clause fires, returns <code>null</code></td>
+        <td>22–24</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_nonExistentDeveloperName_returnsNull</code></td>
+        <td>Valid object, non-existent developer name → SOQL returns empty list → <code>null</code></td>
+        <td>26–34</td>
+      </tr>
+      <tr>
+        <td><code>resolveRecordTypeId_validInputs_returnsRecordTypeId</code></td>
+        <td>Valid object and developer name → SOQL returns record → correct ID returned</td>
+        <td>26–34</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Note on positive test data:</strong> The test queries
+    <code>RecordType WHERE IsActive = true LIMIT 1</code> to obtain a real record type
+    from the org. If no active record types exist the test skips with a passing assertion.
+    This pattern is required because <code>RecordType</code> records are not insertable
+    via DML in Apex test context.
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       8. PARAMETER QUICK REFERENCE
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>8. Parameter Quick Reference</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Default</th>
+        <th>Flow Input</th>
+        <th>Flow Output</th>
+        <th>App Builder</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>objectApiName</code></td><td>String</td><td>✔</td><td>—</td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>recordTypeName</code></td><td>String</td><td>—</td><td>—</td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>fieldApiName</code></td><td>String</td><td>✔</td><td>—</td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>label</code></td><td>String</td><td>—</td><td><code>Select</code></td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>placeholder</code></td><td>String</td><td>—</td><td><code>-- Select --</code></td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>includeNone</code></td><td>Boolean</td><td>—</td><td><code>false</code></td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>required</code></td><td>Boolean</td><td>—</td><td><code>false</code></td><td>✔</td><td>—</td><td>✔</td></tr>
+      <tr><td><code>value</code></td><td>String</td><td>—</td><td>—</td><td>—</td><td>✔</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

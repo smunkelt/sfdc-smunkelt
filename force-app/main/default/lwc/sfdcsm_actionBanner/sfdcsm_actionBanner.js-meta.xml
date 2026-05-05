@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+
+        <!-- ── Record Page ──────────────────────────────────────────────── -->
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage">
+
+            <!-- Appearance -->
+            <property
+                name="panelColor"
+                type="String"
+                label="Panel Background Colour (hex)"
+                description="Hex colour code for the panel background, e.g. #4CAF50"
+                default="#4CAF50"
+            />
+            <property
+                name="textColor"
+                type="String"
+                label="Text Colour (hex)"
+                description="Hex colour code for the panel text, e.g. #ffffff"
+                default="#ffffff"
+            />
+
+            <!-- Icon -->
+            <property
+                name="iconName"
+                type="String"
+                label="Icon Name (SLDS)"
+                description="SLDS icon name to display on the left, e.g. standard:account or utility:info. Leave empty to hide the icon."
+            />
+
+            <!-- Text -->
+            <property
+                name="textLine1"
+                type="String"
+                label="Text – Line 1"
+                description="Bold primary text. Embed live record field values using {{FieldApiName}} tokens, e.g. 'SLA Breached · {{SLA_Remaining__c}} overdue' or '{{Name}}'. Any valid field API name on the current object is supported."
+            />
+            <property
+                name="textLine2"
+                type="String"
+                label="Text – Line 2"
+                description="Lighter secondary text. Supports the same {{FieldApiName}} merge syntax as Text Line 1, e.g. 'Owner: {{Owner.Name}} · Priority: {{Priority}}'."
+            />
+            <property
+                name="textAlignment"
+                type="String"
+                label="Text Alignment"
+                description="Alignment of the text: left, center, or right."
+                datasource="left,center,right"
+                default="left"
+            />
+
+            <!-- Button 1 -->
+            <property
+                name="button1Label"
+                type="String"
+                label="Button 1 – Label"
+                description="Label for the first button. Supports custom labels ({!$Label.c.MyLabel}). Leave empty to hide the button."
+            />
+            <property
+                name="button1Variant"
+                type="String"
+                label="Button 1 – Variant"
+                description="SLDS button variant: bare, neutral, brand, brand-outline, inverse, destructive, destructive-text, success."
+                datasource="bare,neutral,brand,brand-outline,inverse,destructive,destructive-text,success"
+                default="neutral"
+            />
+            <property
+                name="button1Flow"
+                type="String"
+                label="Button 1 – Autolaunched Flow API Name"
+                description="API name of an autolaunched flow to invoke when Button 1 is clicked. The flow will receive the current record Id as input parameter 'recordId'."
+            />
+
+            <!-- Button 2 -->
+            <property
+                name="button2Label"
+                type="String"
+                label="Button 2 – Label"
+                description="Label for the second button. Supports custom labels ({!$Label.c.MyLabel}). Leave empty to hide the button."
+            />
+            <property
+                name="button2Variant"
+                type="String"
+                label="Button 2 – Variant"
+                description="SLDS button variant: bare, neutral, brand, brand-outline, inverse, destructive, destructive-text, success."
+                datasource="bare,neutral,brand,brand-outline,inverse,destructive,destructive-text,success"
+                default="neutral"
+            />
+            <property
+                name="button2Flow"
+                type="String"
+                label="Button 2 – Autolaunched Flow API Name"
+                description="API name of an autolaunched flow to invoke when Button 2 is clicked. The flow will receive the current record Id as input parameter 'recordId'."
+            />
+        </targetConfig>
+
+        <!-- ── Screen Flow ───────────────────────────────────────────────── -->
+        <targetConfig targets="lightning__FlowScreen">
+
+            <!-- Record context (must be supplied by the flow) -->
+            <property
+                name="recordId"
+                type="String"
+                label="Record Id"
+                description="Id of the record to pass into triggered autolaunched flows."
+            />
+
+            <!-- Appearance -->
+            <property
+                name="panelColor"
+                type="String"
+                label="Panel Background Colour (hex)"
+                description="Hex colour code for the panel background, e.g. #4CAF50"
+                default="#4CAF50"
+            />
+            <property
+                name="textColor"
+                type="String"
+                label="Text Colour (hex)"
+                description="Hex colour code for the panel text, e.g. #ffffff"
+                default="#ffffff"
+            />
+
+            <!-- Icon -->
+            <property
+                name="iconName"
+                type="String"
+                label="Icon Name (SLDS)"
+                description="SLDS icon name to display on the left, e.g. standard:account or utility:info. Leave empty to hide the icon."
+            />
+
+            <!-- Text -->
+            <property
+                name="textLine1"
+                type="String"
+                label="Text – Line 1"
+                description="Bold primary text. Use {{FieldApiName}} tokens to embed flow variable values, e.g. 'SLA Breached · {{hoursOverdue}}h overdue'."
+            />
+            <property
+                name="textLine2"
+                type="String"
+                label="Text – Line 2"
+                description="Lighter secondary text. Supports the same {{VariableName}} merge syntax as Text Line 1."
+            />
+            <property
+                name="textAlignment"
+                type="String"
+                label="Text Alignment"
+                description="Alignment of the text: left, center, or right."
+                datasource="left,center,right"
+                default="left"
+            />
+
+            <!-- Button 1 -->
+            <property
+                name="button1Label"
+                type="String"
+                label="Button 1 – Label"
+                description="Label for the first button. Leave empty to hide the button."
+            />
+            <property
+                name="button1Variant"
+                type="String"
+                label="Button 1 – Variant"
+                description="SLDS button variant: bare, neutral, brand, brand-outline, inverse, destructive, destructive-text, success."
+                datasource="bare,neutral,brand,brand-outline,inverse,destructive,destructive-text,success"
+                default="neutral"
+            />
+            <property
+                name="button1Flow"
+                type="String"
+                label="Button 1 – Autolaunched Flow API Name"
+                description="API name of an autolaunched flow to invoke when Button 1 is clicked."
+            />
+
+            <!-- Button 2 -->
+            <property
+                name="button2Label"
+                type="String"
+                label="Button 2 – Label"
+                description="Label for the second button. Leave empty to hide the button."
+            />
+            <property
+                name="button2Variant"
+                type="String"
+                label="Button 2 – Variant"
+                description="SLDS button variant: bare, neutral, brand, brand-outline, inverse, destructive, destructive-text, success."
+                datasource="bare,neutral,brand,brand-outline,inverse,destructive,destructive-text,success"
+                default="neutral"
+            />
+            <property
+                name="button2Flow"
+                type="String"
+                label="Button 2 – Autolaunched Flow API Name"
+                description="API name of an autolaunched flow to invoke when Button 2 is clicked."
+            />
+        </targetConfig>
+
+    </targetConfigs>
+</LightningComponentBundle>

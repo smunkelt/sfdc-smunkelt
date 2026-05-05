@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rounded background -->
+  <rect width="100" height="100" rx="14" fill="#0176d3"/>
+
+  <!-- Field label text bar -->
+  <rect x="14" y="22" width="28" height="4" rx="2" fill="white" opacity="0.55"/>
+
+  <!-- Combobox field body -->
+  <rect x="14" y="30" width="72" height="24" rx="5" fill="white" opacity="0.97"/>
+
+  <!-- Placeholder text inside field -->
+  <rect x="20" y="38" width="38" height="4" rx="2" fill="#0176d3" opacity="0.3"/>
+  <rect x="20" y="45" width="24" height="3" rx="1.5" fill="#0176d3" opacity="0.15"/>
+
+  <!-- Dropdown chevron area separator -->
+  <line x1="72" y1="31" x2="72" y2="53" stroke="#d8dde6" stroke-width="1.2"/>
+
+  <!-- Chevron arrow -->
+  <polyline points="76,38 80,44 84,38" fill="none" stroke="#0176d3" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Dropdown options list below -->
+  <rect x="14" y="59" width="72" height="6" rx="3" fill="white" opacity="0.85"/>
+  <rect x="14" y="69" width="72" height="6" rx="3" fill="white" opacity="0.55"/>
+  <rect x="14" y="79" width="72" height="6" rx="3" fill="white" opacity="0.3"/>
+
+  <!-- Selected indicator (checkmark on first option) -->
+  <polyline points="18,62 21,65 27,60" fill="none" stroke="#0176d3" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

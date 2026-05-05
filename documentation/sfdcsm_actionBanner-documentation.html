@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sfdcsm_actionBanner – Component Documentation</title>
+  <style>
+    /* ── Reset & base ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 10.5pt;
+      color: #1b1b1b;
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    /* ── Page layout ────────────────────────────────────────────────────────── */
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 56px 72px;
+    }
+
+    /* ── Cover block ────────────────────────────────────────────────────────── */
+    .cover {
+      border-left: 6px solid #0176d3;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      background: #f3f8fd;
+      border-radius: 0 6px 6px 0;
+    }
+    .cover h1 {
+      font-size: 20pt;
+      font-weight: 700;
+      color: #032d60;
+      margin-bottom: 4px;
+    }
+    .cover .subtitle {
+      font-size: 10pt;
+      color: #444;
+    }
+    .cover .meta {
+      margin-top: 12px;
+      font-size: 9pt;
+      color: #666;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .cover .meta span strong { color: #333; }
+
+    /* ── Section headings ───────────────────────────────────────────────────── */
+    h2 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #032d60;
+      margin-top: 36px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #d8e8f8;
+    }
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0176d3;
+      margin-top: 22px;
+      margin-bottom: 6px;
+    }
+
+    p { margin-bottom: 8px; }
+
+    /* ── Info / note boxes ──────────────────────────────────────────────────── */
+    .note {
+      background: #fdf6e3;
+      border-left: 4px solid #f0b429;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin: 12px 0;
+      font-size: 9.5pt;
+    }
+    .info {
+      background: #eaf4ff;
+      border-left: 4px solid #0176d3;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin: 12px 0;
+      font-size: 9.5pt;
+    }
+
+    /* ── Parameter tables ───────────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: 9.5pt;
+    }
+    thead tr {
+      background: #032d60;
+      color: #fff;
+    }
+    thead th {
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    tbody tr:nth-child(even) { background: #f5f9fe; }
+    tbody tr:hover { background: #e8f1fb; }
+    td {
+      padding: 7px 10px;
+      vertical-align: top;
+      border-bottom: 1px solid #dde6ef;
+    }
+    td:first-child { font-weight: 600; white-space: nowrap; }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 8.5pt;
+      background: #eef2f7;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #032d60;
+    }
+
+    /* ── Pill badges ────────────────────────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .badge-req  { background: #fde8e8; color: #c23934; }
+    .badge-opt  { background: #e8f5e9; color: #2e7d32; }
+    .badge-str  { background: #e8eaf6; color: #283593; }
+
+    /* ── Visual anatomy diagram ─────────────────────────────────────────────── */
+    .anatomy {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #4CAF50;
+      padding: 14px 16px;
+      margin: 16px 0 8px;
+      position: relative;
+    }
+    .anatomy-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-right: 14px;
+      font-size: 9pt;
+      color: #fff;
+      font-style: italic;
+    }
+    .anatomy-text { flex: 1; }
+    .anatomy-text .l1 {
+      font-weight: 700; font-size: 10pt; color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,.25);
+    }
+    .anatomy-text .l2 {
+      font-size: 9pt; color: rgba(255,255,255,.88);
+      text-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+    .anatomy-btns {
+      display: flex; gap: 8px; flex-shrink: 0; margin-left: 14px;
+    }
+    .anatomy-btn {
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(255,255,255,.6);
+      border-radius: 5px;
+      padding: 5px 14px;
+      font-size: 9pt;
+      font-weight: 600;
+      color: #222;
+    }
+    .anatomy-label {
+      font-size: 7.5pt;
+      color: #555;
+      text-align: center;
+      margin-top: 4px;
+      font-style: italic;
+    }
+    .anatomy-col { display: flex; flex-direction: column; }
+
+    /* ── Button variant swatches ────────────────────────────────────────────── */
+    .variants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 16px;
+    }
+    .v-swatch {
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 9pt;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .v-bare        { background: transparent; color: #0176d3; border-color: transparent; }
+    .v-neutral     { background: #fff; color: #222; border: 1px solid #c9c9c9; }
+    .v-brand       { background: #0176d3; color: #fff; }
+    .v-brand-out   { background: #fff; color: #0176d3; border-color: #0176d3; }
+    .v-inverse     { background: #032d60; color: #fff; }
+    .v-destructive { background: #c23934; color: #fff; }
+    .v-destr-text  { background: transparent; color: #c23934; border-color: transparent; }
+    .v-success     { background: #2e7d32; color: #fff; }
+
+    /* ── File tree ──────────────────────────────────────────────────────────── */
+    .filetree {
+      background: #f4f6f9;
+      border: 1px solid #dde6ef;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-family: 'Consolas', monospace;
+      font-size: 9pt;
+      line-height: 1.8;
+      margin: 10px 0 18px;
+    }
+    .filetree .dir  { color: #0176d3; font-weight: 700; }
+    .filetree .file { color: #1b1b1b; }
+    .filetree .note { background: none; border: none; padding: 0;
+                      color: #888; font-style: italic; font-family: sans-serif;
+                      font-size: 8.5pt; display: inline; }
+
+    /* ── Component preview ──────────────────────────────────────────────────── */
+    .preview-wrap {
+      margin: 14px 0 24px;
+    }
+    .preview-label {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    /* The simulated panel */
+    .cp {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      min-height: 3.5rem;
+      padding: 0.625rem 1rem;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      gap: 0.75rem;
+      position: relative;
+    }
+    /* Icon area */
+    .cp-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    /* SLDS standard icon treatment — coloured square, white symbol */
+    .cp-icon-standard {
+      background: rgba(255,255,255,0.18);
+    }
+    /* SLDS utility icon treatment — no background, coloured symbol */
+    .cp-icon-utility {
+      background: transparent;
+      font-size: 22px;
+    }
+    /* Text area */
+    .cp-text {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .cp-text-center { text-align: center; }
+    .cp-text-right  { text-align: right; }
+    .cp-text-left   { text-align: left; }
+    .cp-l1 {
+      margin: 0;
+      padding: 0;
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0,0,0,.2);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .cp-l2 {
+      margin: 0;
+      padding: 0;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      line-height: 1.4;
+      opacity: 0.88;
+      text-shadow: 0 1px 2px rgba(0,0,0,.15);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    /* Button area */
+    .cp-btns {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cp-btn {
+      padding: 5px 16px;
+      border-radius: 5px;
+      font-size: 9pt;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: default;
+      white-space: nowrap;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .cp-btn-neutral     { background: rgba(255,255,255,.92); color: #222;    border-color: rgba(255,255,255,.6); }
+    .cp-btn-brand       { background: #0176d3;               color: #fff; }
+    .cp-btn-brand-out   { background: rgba(255,255,255,.92); color: #0176d3; border-color: #0176d3; }
+    .cp-btn-inverse     { background: #032d60;               color: #fff; }
+    .cp-btn-destructive { background: #c23934;               color: #fff; }
+    .cp-btn-destr-text  { background: transparent;           color: #c23934; }
+    .cp-btn-success     { background: #2e7d32;               color: #fff; }
+    .cp-btn-bare        { background: transparent;           color: #0176d3; }
+
+    /* ── Print settings ─────────────────────────────────────────────────────── */
+    /* Force exact background/colour reproduction when printing */
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    @media print {
+      body { font-size: 9.5pt; }
+      .page { padding: 20px 32px 40px; max-width: 100%; }
+      h2 { page-break-after: avoid; }
+      table { page-break-inside: avoid; }
+      .cover { page-break-after: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       COVER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="cover">
+    <h1>sfdcsm_actionBanner</h1>
+    <div class="subtitle">Lightning Web Component – Technical &amp; Configuration Reference</div>
+    <div class="meta">
+      <span><strong>API version:</strong> 62.0</span>
+      <span><strong>Apex controller:</strong> sfdcsm_ActionBannerFlowController</span>
+      <span><strong>Document date:</strong> April 2026</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       1. OVERVIEW
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>1. Overview</h2>
+
+  <p>
+    <code>sfdcsm_actionBanner</code> is a configurable, full-width banner panel for
+    Salesforce Lightning pages. It displays a coloured bar that can contain an icon,
+    up to two lines of text, and up to two action buttons. Each button can invoke an
+    autolaunched Flow, passing the current record's Id as an input variable.
+  </p>
+
+  <p>The component is built with Lightning Design System (SLDS) primitives and
+  automatically adjusts its width to fill the column or region it is placed in.</p>
+
+  <h3>Visual anatomy</h3>
+
+  <div style="margin:12px 0 6px;">
+    <div class="cp" style="background-color:#4c6f91;">
+      <div class="cp-icon cp-icon-standard" style="background:rgba(255,255,255,0.22);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="22" height="22" fill="white">
+          <rect x="10" y="10" width="32" height="32" rx="4"/>
+        </svg>
+      </div>
+      <div class="cp-text cp-text-left">
+        <p class="cp-l1" style="color:#fff;">Text Line 1 (bold)</p>
+        <p class="cp-l2" style="color:#fff;">Text Line 2 (regular, smaller)</p>
+      </div>
+      <div class="cp-btns">
+        <span class="cp-btn cp-btn-neutral">Button 1</span>
+        <span class="cp-btn cp-btn-neutral">Button 2</span>
+      </div>
+    </div>
+    <p style="font-size:8pt; color:#888; font-style:italic; margin-top:5px; text-align:center;">
+      All elements visible — icon · two text lines · two buttons
+    </p>
+  </div>
+
+  <div class="info">
+    <strong>Layout rules:</strong> The icon anchors to the left edge; the buttons anchor to the right edge.
+    The text section fills all remaining horizontal space. Elements that are not
+    configured (empty icon name, empty button labels) are completely hidden — the text
+    expands to occupy the freed space automatically.
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       2. SUPPORTED TARGETS
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>2. Supported Targets</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Target</th>
+        <th>How to add</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Record Page</td>
+        <td>Lightning App Builder → drag component onto a record page</td>
+        <td><code>recordId</code> is automatically provided by the page.</td>
+      </tr>
+      <tr>
+        <td>App Page</td>
+        <td>Lightning App Builder → drag component onto an App page</td>
+        <td><code>recordId</code> is not available; flow input will be <code>null</code>.</td>
+      </tr>
+      <tr>
+        <td>Home Page</td>
+        <td>Lightning App Builder → drag component onto a Home page</td>
+        <td><code>recordId</code> is not available; flow input will be <code>null</code>.</td>
+      </tr>
+      <tr>
+        <td>Screen Flow</td>
+        <td>Flow Builder → add a Screen element → select the component</td>
+        <td>Pass <code>recordId</code> explicitly via a flow variable or resource.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       3. PARAMETERS (ALL)
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>3. Parameters</h2>
+
+  <!-- 3.1 Context -->
+  <h3>3.1 Record Context</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>recordId</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          The Salesforce Id of the current record. On a <strong>Record Page</strong> this is
+          populated automatically by the platform and does not need to be set manually.
+          In a <strong>Screen Flow</strong> it must be assigned from a flow variable
+          (e.g. <code>{!recordId}</code> or a Get Records result).
+          The value is forwarded to any autolaunched flow as input parameter
+          <code>recordId</code>. If left empty, the flow is still invoked but no
+          <code>recordId</code> is passed.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 3.2 Appearance -->
+  <h3>3.2 Appearance</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>panelColor</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td><code>#4CAF50</code></td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Background colour of the panel as a CSS hex code.
+          Accepts 3-digit (<code>#0f0</code>) or 6-digit (<code>#00ff00</code>) hex values.
+          Any valid CSS colour string (e.g. <code>rgb(…)</code>, named colours) is also
+          accepted. Falls back to <code>#4CAF50</code> (green) when left empty.
+        </td>
+      </tr>
+      <tr>
+        <td>textColor</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td><code>#ffffff</code></td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Colour of the text lines as a CSS hex code. Applied to both
+          <em>Text Line 1</em> and <em>Text Line 2</em>. Falls back to
+          <code>#ffffff</code> (white) when left empty. Choose a colour with
+          sufficient contrast against <code>panelColor</code> for readability.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 3.3 Icon -->
+  <h3>3.3 Icon</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>iconName</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          SLDS icon identifier in the format <code>category:name</code>, e.g.
+          <code>standard:email_chatter</code>, <code>utility:info</code>,
+          <code>action:approve</code>.<br/>
+          When left empty the icon area is hidden and the text fills that space.<br/>
+          Full icon catalogue: <em>lightningdesignsystem.com/icons</em>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 3.4 Text -->
+  <h3>3.4 Text</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>textLine1</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Primary text line. Rendered in <strong>bold</strong> at a slightly larger font size.
+          Supports static text and <strong><code>{{FieldApiName}}</code> merge tokens</strong>
+          that are resolved against the current record at runtime (record pages only).
+          Example: <code>SLA Breached · {{SLA_Remaining__c}} overdue</code>.
+          Truncates with an ellipsis when the available width is exceeded.
+        </td>
+      </tr>
+      <tr>
+        <td>textLine2</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Secondary text line. Rendered in regular weight at a smaller font size with
+          reduced opacity. Supports the same <code>{{FieldApiName}}</code> merge token
+          syntax as <code>textLine1</code>. Can be left empty independently.
+        </td>
+      </tr>
+      <tr>
+        <td>textAlignment</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td><code>left</code></td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Horizontal alignment of both text lines within the text area.
+          Accepted values: <code>left</code> · <code>center</code> · <code>right</code>.
+          Any other value is treated as <code>left</code>.
+          In App Builder and Flow Builder a drop-down with all three options is shown.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 3.4.1 Merge field tokens -->
+  <h3>3.4.1 Merge Field Tokens — Live Record Data</h3>
+
+  <p>
+    Both <code>textLine1</code> and <code>textLine2</code> support inline
+    <code>{{FieldApiName}}</code> tokens. When the component is placed on a
+    <strong>Record Page</strong>, the platform automatically provides the record's object
+    API name; the component then fetches exactly the fields referenced in the text via
+    Lightning Data Service and substitutes them at render time.
+  </p>
+
+  <div class="info">
+    <strong>Record pages only.</strong> Merge field resolution requires <code>objectApiName</code>,
+    which is injected automatically by the platform only on <code>lightning__RecordPage</code>
+    targets. On App Pages, Home Pages, or Screen Flows, use plain static text or
+    (for flows) flow variable merge syntax from Flow Builder.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>What you type in App Builder</th><th>What renders on a Case record</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>{{Subject}}</code></td><td>Payment gateway timeout on checkout</td></tr>
+      <tr><td><code>SLA Breached · {{SLA_Remaining__c}} overdue</code></td><td>SLA Breached · 2h 14m overdue</td></tr>
+      <tr><td><code>Owner: {{Owner.Name}} · Priority: {{Priority}}</code></td><td>Owner: James Cook · Priority: High</td></tr>
+      <tr><td><code>{!Account.Name}</code> (on Opportunity page)</td><td>Acme Corporation</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Rules:</strong></p>
+  <ul style="padding-left:20px; margin-bottom:12px; font-size:9.5pt; color:#333; line-height:1.7;">
+    <li>Use the exact <strong>field API name</strong> (case-sensitive), including the <code>__c</code> suffix for custom fields.</li>
+    <li>Relationship fields are supported: <code>{{Owner.Name}}</code>, <code>{!Account.BillingCity}</code>.</li>
+    <li>The field must be accessible to the running user; inaccessible fields render as an empty string.</li>
+    <li>Static text and tokens can be freely mixed in the same value.</li>
+    <li>If no tokens are present, the string is rendered as-is with no additional data fetch.</li>
+  </ul>
+
+  <!-- 3.5 Buttons -->
+  <h3>3.5 Buttons</h3>
+
+  <div class="info">
+    Two independent buttons are available (Button 1 and Button 2). Each button has
+    three parameters: a <strong>Label</strong>, a <strong>Variant</strong>, and a
+    <strong>Flow</strong>. Configuring the same set for Button 2 adds a second button
+    to the right of Button 1. Any button whose label is empty is not rendered.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Default</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>button1Label</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          Visible label of Button 1. Leave empty to hide the button entirely.
+          Supports Salesforce Custom Label references in App Builder
+          (<code>{!$Label.c.MyLabel}</code>) and flow text resources in Flow Builder.
+        </td>
+      </tr>
+      <tr>
+        <td>button1Variant</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td><code>neutral</code></td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          SLDS visual style of Button 1. See <em>Section 4</em> for a full description
+          of each variant. Falls back to <code>neutral</code> for unrecognised values.
+        </td>
+      </tr>
+      <tr>
+        <td>button1Flow</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>
+          API name of an <strong>Autolaunched Flow</strong> to invoke when Button 1 is
+          clicked (e.g. <code>My_Flow_API_Name</code>). The flow must accept a
+          <code>String</code> input variable named <code>recordId</code>. If left empty
+          the click is a no-op. See <em>Section 5</em> for flow requirements.
+        </td>
+      </tr>
+      <tr>
+        <td>button2Label</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>Identical to <code>button1Label</code> for the second button.</td>
+      </tr>
+      <tr>
+        <td>button2Variant</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td><code>neutral</code></td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>Identical to <code>button1Variant</code> for the second button.</td>
+      </tr>
+      <tr>
+        <td>button2Flow</td>
+        <td><span class="badge badge-str">String</span></td>
+        <td>—</td>
+        <td><span class="badge badge-opt">Optional</span></td>
+        <td>Identical to <code>button1Flow</code> for the second button.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       4. BUTTON VARIANTS
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>4. Button Variants</h2>
+
+  <p>The following SLDS variants are accepted for <code>button1Variant</code> and
+  <code>button2Variant</code>. App Builder and Flow Builder display these as a
+  drop-down list.</p>
+
+  <div class="variants">
+    <span class="v-swatch v-bare">bare</span>
+    <span class="v-swatch v-neutral">neutral</span>
+    <span class="v-swatch v-brand">brand</span>
+    <span class="v-swatch v-brand-out">brand-outline</span>
+    <span class="v-swatch v-inverse">inverse</span>
+    <span class="v-swatch v-destructive">destructive</span>
+    <span class="v-swatch v-destr-text">destructive-text</span>
+    <span class="v-swatch v-success">success</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Value</th><th>Appearance</th><th>Typical use</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>bare</code></td><td>No border, no background — text only with a link style</td><td>Low-emphasis actions</td></tr>
+      <tr><td><code>neutral</code></td><td>White background, grey border</td><td>Default secondary action</td></tr>
+      <tr><td><code>brand</code></td><td>Salesforce blue background, white text</td><td>Primary action</td></tr>
+      <tr><td><code>brand-outline</code></td><td>White background, blue border &amp; text</td><td>Secondary primary action</td></tr>
+      <tr><td><code>inverse</code></td><td>Dark background, white text</td><td>Dark-themed panels</td></tr>
+      <tr><td><code>destructive</code></td><td>Red background, white text</td><td>Delete / irreversible actions</td></tr>
+      <tr><td><code>destructive-text</code></td><td>No background, red text</td><td>Low-emphasis destructive action</td></tr>
+      <tr><td><code>success</code></td><td>Green background, white text</td><td>Confirm / approve actions</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       5. AUTOLAUNCHED FLOW INTEGRATION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>5. Autolaunched Flow Integration</h2>
+
+  <h3>5.1 How it works</h3>
+  <p>
+    When a button is clicked, the component calls the Apex method
+    <code>sfdcsm_ActionBannerFlowController.invokeFlow</code>, passing the
+    <code>flowApiName</code> and the current <code>recordId</code>. Apex instantiates
+    the flow via <code>Flow.Interview.createInterview()</code> and starts it
+    synchronously.
+  </p>
+  <p>
+    After the flow finishes successfully, <code>getRecordNotifyChange</code> is called
+    (when on a record page) to notify Lightning Data Service that the record may have
+    changed. All LDS-backed components on the page — related lists, field sections,
+    highlights panel, etc. — automatically refresh without a full browser reload.
+  </p>
+  <p>
+    A loading spinner replaces the buttons while the Apex call is in progress. On
+    completion a toast message confirms success or reports the error.
+  </p>
+
+  <h3>5.2 Flow requirements</h3>
+  <div class="note">
+    <strong>The referenced flow must be of type Autolaunched Flow (No Trigger).</strong>
+    Screen flows are not supported because they require UI interaction.
+  </div>
+
+  <p>The flow must declare a <strong>text input variable</strong> with the following properties:</p>
+  <table>
+    <thead>
+      <tr><th>Property</th><th>Required value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>API Name</td><td><code>recordId</code> (case-sensitive)</td></tr>
+      <tr><td>Data Type</td><td>Text</td></tr>
+      <tr><td>Available for input</td><td>✔ Checked</td></tr>
+    </tbody>
+  </table>
+
+  <p>If the flow does not declare this variable, Salesforce will throw an error when
+  the button is clicked. The variable may be optional inside the flow logic — it only
+  needs to exist as an input variable.</p>
+
+  <h3>5.3 Record page refresh</h3>
+  <p>
+    Page refresh after a successful flow invocation is automatic on record pages.
+    In screen flows or app/home pages, <code>getRecordNotifyChange</code> is not called
+    (no <code>recordId</code> is available), so no refresh occurs.
+  </p>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       6. CONFIGURATION EXAMPLES
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>6. Configuration Examples</h2>
+
+  <!-- ── 6.1 ─────────────────────────────────────────────────────────────── -->
+  <h3>6.1 Notification banner (no buttons, no icon)</h3>
+  <table>
+    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>panelColor</td><td><code>#f0ad4e</code></td></tr>
+      <tr><td>textColor</td><td><code>#5a3e0a</code></td></tr>
+      <tr><td>textLine1</td><td><code>Maintenance window tonight 22:00–02:00</code></td></tr>
+      <tr><td>textLine2</td><td><code>Save your work before 21:45.</code></td></tr>
+      <tr><td>textAlignment</td><td><code>center</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="preview-wrap">
+    <div class="preview-label">Preview</div>
+    <div class="cp" style="background-color:#f0ad4e;">
+      <div class="cp-text cp-text-center">
+        <p class="cp-l1" style="color:#5a3e0a;">Maintenance window tonight 22:00–02:00</p>
+        <p class="cp-l2" style="color:#5a3e0a;">Save your work before 21:45.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6.2 ─────────────────────────────────────────────────────────────── -->
+  <h3>6.2 Email alert with icon and one action button</h3>
+  <table>
+    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>panelColor</td><td><code>#f5a623</code></td></tr>
+      <tr><td>textColor</td><td><code>#ffffff</code></td></tr>
+      <tr><td>iconName</td><td><code>standard:email_chatter</code></td></tr>
+      <tr><td>textLine1</td><td><code>New Emails Exist</code></td></tr>
+      <tr><td>textLine2</td><td><code>3 unread messages in this record's inbox</code></td></tr>
+      <tr><td>button1Label</td><td><code>Send Reply</code></td></tr>
+      <tr><td>button1Variant</td><td><code>brand</code></td></tr>
+      <tr><td>button1Flow</td><td><code>Send_Email_Reply_Flow</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="preview-wrap">
+    <div class="preview-label">Preview</div>
+    <div class="cp" style="background-color:#f5a623;">
+      <!-- standard:email_chatter icon -->
+      <div class="cp-icon cp-icon-standard" style="background:#e8984e;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="26" height="26" fill="white">
+          <path d="M45,8H7A3,3,0,0,0,4,11V35a3,3,0,0,0,3,3H20v4a2,2,0,0,0,3.27,1.54L31,38H45a3,3,0,0,0,3-3V11A3,3,0,0,0,45,8ZM26,28a2,2,0,1,1,2-2A2,2,0,0,1,26,28Zm8,0a2,2,0,1,1,2-2A2,2,0,0,1,34,28Zm-16,0a2,2,0,1,1,2-2A2,2,0,0,1,18,28Z"/>
+        </svg>
+      </div>
+      <div class="cp-text cp-text-left">
+        <p class="cp-l1" style="color:#ffffff;">New Emails Exist</p>
+        <p class="cp-l2" style="color:#ffffff;">3 unread messages in this record's inbox</p>
+      </div>
+      <div class="cp-btns">
+        <span class="cp-btn cp-btn-brand">Send Reply</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6.3 ─────────────────────────────────────────────────────────────── -->
+  <h3>6.3 Approval panel with two buttons</h3>
+  <table>
+    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>panelColor</td><td><code>#0176d3</code></td></tr>
+      <tr><td>textColor</td><td><code>#ffffff</code></td></tr>
+      <tr><td>iconName</td><td><code>utility:task</code></td></tr>
+      <tr><td>textLine1</td><td><code>Approval Required</code></td></tr>
+      <tr><td>textLine2</td><td><code>This record is pending your approval.</code></td></tr>
+      <tr><td>button1Label</td><td><code>Approve</code></td></tr>
+      <tr><td>button1Variant</td><td><code>success</code></td></tr>
+      <tr><td>button1Flow</td><td><code>Approve_Record_Flow</code></td></tr>
+      <tr><td>button2Label</td><td><code>Reject</code></td></tr>
+      <tr><td>button2Variant</td><td><code>destructive</code></td></tr>
+      <tr><td>button2Flow</td><td><code>Reject_Record_Flow</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="preview-wrap">
+    <div class="preview-label">Preview</div>
+    <div class="cp" style="background-color:#0176d3;">
+      <!-- utility:task icon — plain SVG, no background -->
+      <div class="cp-icon cp-icon-utility">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="26" height="26" fill="white">
+          <path d="M43,4H35.9A6,6,0,0,0,24.1,4H17a4,4,0,0,0-4,4V46a4,4,0,0,0,4,4H43a4,4,0,0,0,4-4V8A4,4,0,0,0,43,4ZM22,6a4,4,0,0,1,8,0,2,2,0,0,1-2,2H24A2,2,0,0,1,22,6ZM37.3,20.5l-11,13a2,2,0,0,1-1.4.8h-.2a2,2,0,0,1-1.4-.6l-5-5a2,2,0,0,1,2.8-2.8l3.5,3.5,9.6-11.4a2,2,0,1,1,3.1,2.5Z"/>
+        </svg>
+      </div>
+      <div class="cp-text cp-text-left">
+        <p class="cp-l1" style="color:#ffffff;">Approval Required</p>
+        <p class="cp-l2" style="color:#ffffff;">This record is pending your approval.</p>
+      </div>
+      <div class="cp-btns">
+        <span class="cp-btn cp-btn-success">Approve</span>
+        <span class="cp-btn cp-btn-destructive">Reject</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6.4 ─────────────────────────────────────────────────────────────── -->
+  <h3>6.4 Dynamic text from record fields (merge tokens)</h3>
+  <p>
+    On a Case record page where <code>SLA_Remaining__c</code> holds a formula
+    value like <code>2h 14m</code>. No formula field on the record is strictly required —
+    any readable field can be referenced directly.
+  </p>
+  <table>
+    <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>panelColor</td><td><code>#c23934</code></td></tr>
+      <tr><td>textColor</td><td><code>#ffffff</code></td></tr>
+      <tr><td>iconName</td><td><code>utility:error</code></td></tr>
+      <tr><td>textLine1</td><td><code>SLA Breached · {{SLA_Remaining__c}} overdue</code></td></tr>
+      <tr><td>textLine2</td><td><code>Owner: {{Owner.Name}} · Priority: {{Priority}}</code></td></tr>
+      <tr><td>button1Label</td><td><code>Escalate</code></td></tr>
+      <tr><td>button1Variant</td><td><code>neutral</code></td></tr>
+      <tr><td>button1Flow</td><td><code>Escalate_Case_Flow</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="preview-wrap">
+    <div class="preview-label">Preview (field values resolved at runtime)</div>
+    <div class="cp" style="background-color:#c23934;">
+      <div class="cp-icon cp-icon-utility">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="26" height="26" fill="white">
+          <path d="M26,2A24,24,0,1,0,50,26,24,24,0,0,0,26,2ZM24,14h4V30H24Zm2,30a3,3,0,1,1,3-3A3,3,0,0,1,26,44Z"/>
+        </svg>
+      </div>
+      <div class="cp-text cp-text-left">
+        <p class="cp-l1" style="color:#ffffff;">SLA Breached · 2h 14m overdue</p>
+        <p class="cp-l2" style="color:#ffffff;">Owner: James Cook · Priority: High</p>
+      </div>
+      <div class="cp-btns">
+        <span class="cp-btn cp-btn-neutral">Escalate</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6.5 ─────────────────────────────────────────────────────────────── -->
+  <h3>6.5 Using a Custom Label as button text</h3>
+  <p>
+    In Lightning App Builder, enter the following in the Button Label field to
+    reference a custom label:
+  </p>
+  <p><code>{!$Label.c.My_Custom_Label_Name}</code></p>
+  <p>
+    In Flow Builder, create a <em>Text</em> resource of type <em>Global Constant</em>
+    or use the <em>$Label</em> global variable in a formula resource, then bind it to
+    the <code>button1Label</code> input property.
+  </p>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       7. FILES & DEPLOYMENT
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>7. Files &amp; Deployment</h2>
+
+  <div class="filetree">
+    <span class="dir">force-app/main/default/</span><br/>
+    ├── <span class="dir">lwc/sfdcsm_actionBanner/</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_actionBanner.html</span> &nbsp;<span class="note">– Template (layout)</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_actionBanner.js</span> &nbsp;<span class="note">– Controller (properties, flow invocation)</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_actionBanner.css</span> &nbsp;<span class="note">– SLDS-based styling</span><br/>
+    │&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_actionBanner.js-meta.xml</span> &nbsp;<span class="note">– Metadata (targets, property definitions)</span><br/>
+    └── <span class="dir">classes/</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_ActionBannerFlowController.cls</span> &nbsp;<span class="note">– Apex (flow invocation)</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_ActionBannerFlowController.cls-meta.xml</span>
+  </div>
+
+  <p>Deploy all six files together using SFDX:</p>
+  <p><code>sf project deploy start --source-dir force-app</code></p>
+
+  <div class="note">
+    <strong>Permission:</strong> The running user must have access to the Apex class
+    <code>sfdcsm_ActionBannerFlowController</code> via their Profile or a Permission Set,
+    and must have the <em>Run Flows</em> permission to execute the referenced autolaunched flows.
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       8. PARAMETER QUICK REFERENCE
+  ═══════════════════════════════════════════════════════════════════════════ -->
+  <h2>8. Parameter Quick Reference</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Record Page</th>
+        <th>Screen Flow</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>recordId</td><td>—</td><td>Auto</td><td>Manual</td><td>Current record Id passed to invoked flows</td></tr>
+      <tr><td>panelColor</td><td><code>#4CAF50</code></td><td>✔</td><td>✔</td><td>Panel background hex colour</td></tr>
+      <tr><td>textColor</td><td><code>#ffffff</code></td><td>✔</td><td>✔</td><td>Text hex colour</td></tr>
+      <tr><td>iconName</td><td>—</td><td>✔</td><td>✔</td><td>SLDS icon (category:name). Empty = hidden</td></tr>
+      <tr><td>textLine1</td><td>—</td><td>✔ + {{Field}}</td><td>✔</td><td>Bold primary text. Supports <code>{{FieldApiName}}</code> tokens on record pages</td></tr>
+      <tr><td>textLine2</td><td>—</td><td>✔ + {{Field}}</td><td>✔</td><td>Regular secondary text. Same merge token support as textLine1</td></tr>
+      <tr><td>textAlignment</td><td><code>left</code></td><td>✔</td><td>✔</td><td>left / center / right</td></tr>
+      <tr><td>button1Label</td><td>—</td><td>✔</td><td>✔</td><td>Button 1 label. Empty = button hidden</td></tr>
+      <tr><td>button1Variant</td><td><code>neutral</code></td><td>✔</td><td>✔</td><td>Button 1 SLDS variant</td></tr>
+      <tr><td>button1Flow</td><td>—</td><td>✔</td><td>✔</td><td>Button 1 autolaunched flow API name</td></tr>
+      <tr><td>button2Label</td><td>—</td><td>✔</td><td>✔</td><td>Button 2 label. Empty = button hidden</td></tr>
+      <tr><td>button2Variant</td><td><code>neutral</code></td><td>✔</td><td>✔</td><td>Button 2 SLDS variant</td></tr>
+      <tr><td>button2Flow</td><td>—</td><td>✔</td><td>✔</td><td>Button 2 autolaunched flow API name</td></tr>
+    </tbody>
+  </table>
+
+</div><!-- /.page -->
+</body>
+</html>

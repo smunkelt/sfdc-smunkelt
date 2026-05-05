@@ -1,0 +1,61 @@
+<template>
+    <div class="panel" style={panelStyle}>
+        <!-- Left: Icon -->
+        <template lwc:if={showIcon}>
+            <div class="panel__icon">
+                <lightning-icon
+                    icon-name={iconName}
+                    size="medium"
+                    alternative-text={iconName}
+                ></lightning-icon>
+            </div>
+        </template>
+
+        <!-- Center: Text -->
+        <div class={textContainerClass}>
+            <template lwc:if={resolvedTextLine1}>
+                <p class="panel__text panel__text--line1" style={textStyle}>{resolvedTextLine1}</p>
+            </template>
+            <template lwc:if={resolvedTextLine2}>
+                <p class="panel__text panel__text--line2" style={textStyle}>{resolvedTextLine2}</p>
+            </template>
+        </div>
+
+        <!-- Right: Buttons -->
+        <template lwc:if={showButtons}>
+            <div class="panel__buttons">
+                <template lwc:if={button1Label}>
+                    <lightning-button
+                        label={button1Label}
+                        variant={resolvedButton1Variant}
+                        class="panel__btn"
+                        onclick={handleButton1Click}
+                        disabled={isLoading}
+                    ></lightning-button>
+                </template>
+                <template lwc:if={button2Label}>
+                    <lightning-button
+                        label={button2Label}
+                        variant={resolvedButton2Variant}
+                        class="panel__btn"
+                        onclick={handleButton2Click}
+                        disabled={isLoading}
+                    ></lightning-button>
+                </template>
+            </div>
+        </template>
+
+        <!-- Loading Spinner -->
+        <template lwc:if={isLoading}>
+            <div class="panel__spinner">
+                <lightning-spinner
+                    alternative-text="Loading"
+                    size="small"
+                    variant="base"
+                ></lightning-spinner>
+            </div>
+        </template>
+    </div>
+
+    <!-- Toast notification area (rendered via event) -->
+</template>

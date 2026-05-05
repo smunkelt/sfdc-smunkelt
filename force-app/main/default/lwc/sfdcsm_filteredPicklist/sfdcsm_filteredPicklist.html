@@ -1,0 +1,36 @@
+<template>
+    <div class="fpicklist">
+        <!-- Loading state: waiting for object info or picklist values -->
+        <template lwc:if={isLoading}>
+            <div class="fpicklist__spinner">
+                <lightning-spinner
+                    alternative-text="Loading picklist values"
+                    size="small">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error state: invalid object, field, or record type -->
+        <template lwc:elseif={hasError}>
+            <div class="slds-form-element slds-has-error">
+                <label class="slds-form-element__label">{label}</label>
+                <div class="slds-form-element__control">
+                    <p class="slds-form-error fpicklist__error">{errorMessage}</p>
+                </div>
+            </div>
+        </template>
+
+        <!-- Ready state -->
+        <template lwc:else>
+            <lightning-combobox
+                name={fieldApiName}
+                label={label}
+                value={_value}
+                placeholder={placeholder}
+                options={options}
+                required={required}
+                onchange={handleChange}>
+            </lightning-combobox>
+        </template>
+    </div>
+</template>
