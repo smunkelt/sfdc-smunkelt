@@ -1,268 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sfdcsm_DynamicRelatedList - Component Summary</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.5;
-            margin: 2rem auto;
-            max-width: 1100px;
-            padding: 0 1rem;
-            color: #16325c;
-            background: #ffffff;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>sfdcsm_DynamicRelatedList — Technical Documentation</title>
+<style>
+  /* ── Base ─────────────────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1b1b1b;
+    background: #f3f3f3;
+  }
 
-        h1, h2, h3 {
-            color: #032d60;
-            margin-bottom: 0.5rem;
-        }
+  /* ── Page wrapper ─────────────────────────────────────────────────────────── */
+  .page { max-width: 960px; margin: 0 auto; background: #fff; padding: 48px 56px 64px; }
 
-        .subtitle {
-            color: #54698d;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
+  /* ── Header ───────────────────────────────────────────────────────────────── */
+  .doc-header {
+    background: linear-gradient(135deg, #0176d3 0%, #014486 100%);
+    color: #fff;
+    padding: 36px 40px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }
+  .doc-header h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.3px; }
+  .doc-header .subtitle { font-size: 1rem; opacity: 0.85; margin-top: 6px; }
+  .doc-header .meta { font-size: 0.8rem; opacity: 0.65; margin-top: 14px; }
 
-        .card {
-            border: 1px solid #d8dde6;
-            border-radius: 6px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1rem;
-            background: #fdfdfd;
-        }
+  /* ── Headings ─────────────────────────────────────────────────────────────── */
+  h2 {
+    font-size: 1.25rem; font-weight: 700; color: #0176d3;
+    border-bottom: 2px solid #e5e5e5; padding-bottom: 6px;
+    margin: 40px 0 16px;
+  }
+  h3 { font-size: 1rem; font-weight: 700; color: #1b1b1b; margin: 24px 0 10px; }
 
-        .feature-list li {
-            margin-bottom: 0.35rem;
-        }
+  /* ── Paragraphs & lists ───────────────────────────────────────────────────── */
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 0 0 12px 20px; }
+  li { margin-bottom: 5px; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 0.75rem;
-        }
+  /* ── Code & inline code ───────────────────────────────────────────────────── */
+  code {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.85em;
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: #032d60;
+  }
 
-        th, td {
-            border: 1px solid #d8dde6;
-            padding: 0.6rem;
-            vertical-align: top;
-            text-align: left;
-        }
+  /* ── Tables ───────────────────────────────────────────────────────────────── */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88rem; }
+  th {
+    background: #0176d3; color: #fff; font-weight: 600;
+    text-align: left; padding: 9px 12px;
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fb; }
+  td code { font-size: 0.82em; }
 
-        th {
-            background: #f3f6f9;
-            color: #032d60;
-        }
+  /* ── Note / callout ───────────────────────────────────────────────────────── */
+  .note {
+    background: #eff6ff;
+    border-left: 4px solid #0176d3;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+  }
+  .note.warn {
+    background: #fff8e1;
+    border-left-color: #f5a623;
+  }
+  .note strong { display: block; margin-bottom: 4px; }
 
-        code {
-            background: #f4f6f9;
-            padding: 0.1rem 0.3rem;
-            border-radius: 3px;
-            color: #032d60;
-        }
+  /* ── File tree ────────────────────────────────────────────────────────────── */
+  .filetree {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.84rem;
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    padding: 16px 20px;
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .filetree .dir  { color: #0176d3; font-weight: 700; }
+  .filetree .file { color: #1b1b1b; }
+  .filetree .note { background: none; border: none; padding: 0;
+                    color: #6e6e6e; font-style: italic; font-size: 0.8rem; }
 
-        .example {
-            color: #0b5cab;
-            font-size: 0.95rem;
-            display: block;
-            margin-top: 0.25rem;
-        }
-    </style>
+  /* ── Print ────────────────────────────────────────────────────────────────── */
+  @media print {
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    body { background: #fff; font-size: 11pt; }
+    .page { padding: 0; max-width: 100%; }
+    h2 { page-break-after: avoid; }
+    table, .note, .filetree { page-break-inside: avoid; }
+  }
+</style>
 </head>
 <body>
+<div class="page">
+
+  <div class="doc-header">
     <h1>sfdcsm_DynamicRelatedList</h1>
-    <p class="subtitle">
-        Dynamic related-list component for <code>lightning__ServiceDocument</code>, powered by
-        <code>sfdcsm_DBDynamicRelatedListController</code>.
-    </p>
+    <div class="subtitle">Lightning Web Component — Technical Reference</div>
+    <div class="meta">API Version 66.0 &nbsp;·&nbsp; Author: sfdcsm &nbsp;·&nbsp; Last updated: July 2026</div>
+  </div>
 
-    <section class="card">
-        <h2>Component Functionality (Summary)</h2>
-        <ul class="feature-list">
-            <li>Renders a configurable related list in Service Document templates.</li>
-            <li>Supports dynamic relationship linkage using current record Id or a configurable source path.</li>
-            <li>Allows dynamic column selection, custom labels, and per-column text alignment.</li>
-            <li>Supports sorting and optional filter criteria to constrain displayed rows.</li>
-            <li>Formats Date, Time, and DateTime values according to user locale/timezone settings.</li>
-            <li>Includes configurable title sizing and optional display when no rows are returned.</li>
-            <li>Provides built-in loading, empty-state, and error-state handling.</li>
-        </ul>
-    </section>
+  <h2>1. Overview</h2>
+  <p>
+    <strong>sfdcsm_DynamicRelatedList</strong> is a configurable Lightning Web Component that renders
+    related records for Service Document templates using a metadata-driven relationship definition.
+    It supports optional source linkage from the current record, dynamic columns, sorting, and filter criteria.
+  </p>
+  <p>
+    The component uses a generic Apex query layer and a configurable datatable definition so one implementation
+    can support many related-list scenarios without hardcoded object-specific logic.
+  </p>
 
-    <section class="card">
-        <h2>Main Features</h2>
-        <h3>1) Flexible Data Linkage</h3>
-        <p>
-            The related-record query can link directly by current record Id, or by a field path on the source record.
-            This enables scenarios like starting from <code>ServiceAppointment</code> and linking via
-            <code>SFS_WorkOrder__c</code>.
-        </p>
+  <h3>Key Features</h3>
+  <ul>
+    <li>Configurable linkage via current <code>recordId</code> or custom source-link field path</li>
+    <li>Dynamic column rendering with optional custom labels and per-column alignments</li>
+    <li>Sort and filter controls to tailor data shown in generated documents</li>
+    <li>Built-in loading, empty-state, and error-state rendering</li>
+    <li>Locale-aware formatting for Date, Time, and DateTime values</li>
+  </ul>
 
-        <h3>2) Dynamic Datatable Definition</h3>
-        <p>
-            Columns, labels, and alignment are configured in template design properties instead of hardcoding.
-            Relationship columns (for example <code>Asset.Product2.Name</code>) are supported.
-        </p>
+  <h2>2. Supported Targets</h2>
+  <table>
+    <thead>
+      <tr><th>Target</th><th>How to add</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Service Document</td>
+        <td>Service Document Builder → add custom LWC component</td>
+        <td>Designed for <code>lightning__ServiceDocument</code> target configuration.</td>
+      </tr>
+    </tbody>
+  </table>
 
-        <h3>3) Query Controls</h3>
-        <p>
-            Sorting and filtering can be configured to match a document section use case, such as showing only records
-            in a specific status.
-        </p>
+  <h2>3. Design Settings</h2>
+  <table>
+    <thead>
+      <tr><th>Setting</th><th>Purpose</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>relatedEntityDefinition</code></td>
+        <td>Target object and lookup field in format <code>ChildObjectApiName:LookupFieldApiName</code>.</td>
+        <td><code>WorkOrderLineItem:WorkOrderId</code></td>
+      </tr>
+      <tr>
+        <td><code>sourceLinkFieldPath</code></td>
+        <td>Optional linkage field path on the source record. If blank, component uses <code>recordId</code>.</td>
+        <td><code>SFS_WorkOrder__c</code></td>
+      </tr>
+      <tr>
+        <td><code>relatedListTitle</code></td>
+        <td>Header text displayed above the datatable.</td>
+        <td><code>Work Order Line Items</code></td>
+      </tr>
+      <tr>
+        <td><code>titleSize</code></td>
+        <td>Title size enum: <code>standard</code>, <code>small</code>, <code>medium</code>, <code>large</code>.</td>
+        <td><code>standard</code></td>
+      </tr>
+      <tr>
+        <td><code>showWhenEmpty</code></td>
+        <td>When true, renders title and empty-state message even when no rows are returned.</td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>columnsToDisplay</code></td>
+        <td>Comma-separated column field paths, including relationship paths.</td>
+        <td><code>LineItemNumber,Asset.Name,Status</code></td>
+      </tr>
+      <tr>
+        <td><code>columnLabels</code></td>
+        <td>Optional comma-separated labels matching the same order as columns.</td>
+        <td><code>Line #,Asset,Status</code></td>
+      </tr>
+      <tr>
+        <td><code>columnAlignments</code></td>
+        <td>Optional comma-separated alignments: <code>left</code>, <code>center</code>, <code>right</code>.</td>
+        <td><code>left,left,center</code></td>
+      </tr>
+      <tr>
+        <td><code>sortField</code></td>
+        <td>Field path used in ORDER BY clause.</td>
+        <td><code>LineItemNumber</code></td>
+      </tr>
+      <tr>
+        <td><code>sortOrder</code></td>
+        <td>Sort direction for <code>sortField</code>: <code>ASC</code> or <code>DESC</code>.</td>
+        <td><code>ASC</code></td>
+      </tr>
+      <tr>
+        <td><code>filterCriteria</code></td>
+        <td>Additional WHERE fragment (do not include <code>WHERE</code> keyword).</td>
+        <td><code>Status != 'Canceled'</code></td>
+      </tr>
+    </tbody>
+  </table>
 
-        <h3>4) Locale-Aware Value Formatting</h3>
-        <p>
-            Date, Time, and DateTime values are normalized and rendered for user locale/timezone readability.
-            Time values that arrive as milliseconds are converted to user-friendly time output.
-        </p>
-    </section>
+  <h2>4. Example Configuration</h2>
+  <p>
+    Example for a ServiceAppointment template that shows WorkOrderLineItem records for the linked Work Order:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Property</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>relatedEntityDefinition</td><td><code>WorkOrderLineItem:WorkOrderId</code></td></tr>
+      <tr><td>sourceLinkFieldPath</td><td><code>SFS_WorkOrder__c</code></td></tr>
+      <tr><td>relatedListTitle</td><td><code>Work Order Line Items</code></td></tr>
+      <tr><td>titleSize</td><td><code>standard</code></td></tr>
+      <tr><td>showWhenEmpty</td><td><code>false</code></td></tr>
+      <tr><td>columnsToDisplay</td><td><code>LineItemNumber,Asset.Name,Asset.SerialNumber,Status</code></td></tr>
+      <tr><td>columnLabels</td><td><code>Line #,Asset,Serial Number,Status</code></td></tr>
+      <tr><td>columnAlignments</td><td><code>left,left,left,center</code></td></tr>
+      <tr><td>sortField</td><td><code>LineItemNumber</code></td></tr>
+      <tr><td>sortOrder</td><td><code>ASC</code></td></tr>
+      <tr><td>filterCriteria</td><td><code>Status != 'Canceled'</code></td></tr>
+    </tbody>
+  </table>
 
-    <section class="card">
-        <h2>Design Settings - Detailed Reference</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Setting</th>
-                    <th>Purpose</th>
-                    <th>Example</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>relatedEntityDefinition</code></td>
-                    <td>
-                        Defines target object + lookup field used to link related records.
-                        Format: <code>ChildObjectApiName:LookupFieldApiName</code>.
-                    </td>
-                    <td>
-                        <code>WorkOrderLineItem:WorkOrderId</code>
-                        <span class="example">Query WorkOrderLineItem records where WorkOrderId = linkage value.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>sourceLinkFieldPath</code></td>
-                    <td>
-                        Optional field path on the current record used as linkage value.
-                        If blank, current <code>recordId</code> is used.
-                    </td>
-                    <td>
-                        <code>SFS_WorkOrder__c</code>
-                        <span class="example">On ServiceAppointment, link related records through the Work Order Id.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>relatedListTitle</code></td>
-                    <td>Header text shown above the datatable.</td>
-                    <td>
-                        <code>Installed Assets</code>
-                        <span class="example">Displays "Installed Assets" as section title.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>titleSize</code></td>
-                    <td>Controls title text size. Allowed values: <code>standard</code>, <code>small</code>, <code>medium</code>, <code>large</code>.</td>
-                    <td>
-                        <code>standard</code>
-                        <span class="example">Uses default style intended to align with native related-list look.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>showWhenEmpty</code></td>
-                    <td>
-                        When checked, the component still renders title + empty-state message if no records are returned.
-                        Default is unchecked/false.
-                    </td>
-                    <td>
-                        <code>true</code>
-                        <span class="example">Always show the section, even with zero matching rows.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>columnsToDisplay</code></td>
-                    <td>Comma-separated field paths used as datatable columns. Supports relationship paths.</td>
-                    <td>
-                        <code>LineItemNumber,Asset.Name,Asset.SerialNumber,Status</code>
-                        <span class="example">Displays a mixed set of direct and related fields.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>columnLabels</code></td>
-                    <td>
-                        Optional comma-separated labels matching column order.
-                        If omitted, labels are derived from field names.
-                    </td>
-                    <td>
-                        <code>Line #,Asset,Serial,Current Status</code>
-                        <span class="example">Overrides default labels with business-friendly text.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>columnAlignments</code></td>
-                    <td>Optional comma-separated alignments per column: <code>left</code>, <code>center</code>, <code>right</code>.</td>
-                    <td>
-                        <code>left,left,right,center</code>
-                        <span class="example">Aligns each column independently.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>sortField</code></td>
-                    <td>Field path used in ORDER BY clause.</td>
-                    <td>
-                        <code>LineItemNumber</code>
-                        <span class="example">Sort records by line item sequence.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>sortOrder</code></td>
-                    <td>Sort direction for <code>sortField</code>. Allowed values: <code>ASC</code>, <code>DESC</code>.</td>
-                    <td>
-                        <code>ASC</code>
-                        <span class="example">Shows oldest/smallest value first.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><code>filterCriteria</code></td>
-                    <td>
-                        Extra WHERE clause fragment appended to base linkage filter.
-                        Do not include the <code>WHERE</code> keyword.
-                    </td>
-                    <td>
-                        <code>Status = 'New' AND IsDeleted = false</code>
-                        <span class="example">Only includes active records with status New.</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+  <h2>5. Technical Notes</h2>
+  <p>
+    The Apex controller validates field paths and filter syntax before running dynamic SOQL. It also resolves
+    nested source-link field paths to support multi-hop linkage scenarios.
+  </p>
+  <p>
+    Response rows are serialized as key/value maps with stable column keys (<code>col_0</code>, <code>col_1</code>, etc.),
+    and the LWC applies client-side value formatting for dates and times based on locale and timezone.
+  </p>
+  <div class="note warn">
+    <strong>Filter safety:</strong> <code>filterCriteria</code> is constrained by character and keyword checks.
+    Unsupported patterns (for example semicolons, SQL comments, or nested SELECT fragments) are rejected.
+  </div>
 
-    <section class="card">
-        <h2>Complete Example Configuration</h2>
-        <p>
-            Example for a ServiceAppointment template that shows WorkOrderLineItems for the parent Work Order:
-        </p>
-        <ul>
-            <li><code>relatedEntityDefinition = WorkOrderLineItem:WorkOrderId</code></li>
-            <li><code>sourceLinkFieldPath = SFS_WorkOrder__c</code></li>
-            <li><code>relatedListTitle = Work Order Line Items</code></li>
-            <li><code>titleSize = standard</code></li>
-            <li><code>showWhenEmpty = false</code></li>
-            <li><code>columnsToDisplay = LineItemNumber,Asset.Name,Asset.SerialNumber,Status</code></li>
-            <li><code>columnLabels = Line #,Asset,Serial Number,Status</code></li>
-            <li><code>columnAlignments = left,left,left,center</code></li>
-            <li><code>sortField = LineItemNumber</code></li>
-            <li><code>sortOrder = ASC</code></li>
-            <li><code>filterCriteria = Status != 'Canceled'</code></li>
-        </ul>
-    </section>
-    <section class="card">
-        <h2>Exact Artifact Names</h2>
-        <ul>
-            <li>Component: <code>sfdcsm_DynamicRelatedList</code></li>
-            <li>Controller: <code>sfdcsm_DBDynamicRelatedListController</code></li>
-            <li>Test Class: <code>sfdcsm_DBDynamicRelatedListControllerTest</code></li>
-        </ul>
-    </section>
+  <h2>6. Files &amp; Deployment</h2>
+  <div class="filetree">
+    <span class="dir">force-app/main/default/</span><br/>
+    ├── <span class="dir">lwc/sfdcsm_DynamicRelatedList/</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_DynamicRelatedList.html</span> &nbsp;<span class="note">– Template (datatable, loading, error, empty state)</span><br/>
+    │&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_DynamicRelatedList.js</span> &nbsp;<span class="note">– Controller (Apex call, column model, value formatting)</span><br/>
+    │&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_DynamicRelatedList.js-meta.xml</span> &nbsp;<span class="note">– Metadata (Service Document target + properties)</span><br/>
+    └── <span class="dir">classes/</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_DBDynamicRelatedListController.cls</span> &nbsp;<span class="note">– Apex controller (dynamic query + validation)</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_DBDynamicRelatedListController.cls-meta.xml</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">sfdcsm_DBDynamicRelatedListControllerTest.cls</span> &nbsp;<span class="note">– Apex test class</span><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">sfdcsm_DBDynamicRelatedListControllerTest.cls-meta.xml</span>
+  </div>
+  <p>Deploy using:</p>
+  <p><code>sf project deploy start --source-dir force-app</code></p>
+
+</div>
 </body>
 </html>
