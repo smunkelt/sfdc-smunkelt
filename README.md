@@ -17,3 +17,13 @@ A reusable picklist component for Screen Flows and Lightning Record Pages that r
 **Key inputs:** `objectApiName` (required), `fieldApiName` (required), `recordTypeName`, `label`, `required`, `includeNone`
 
 [Full documentation →](https://smunkelt.github.io/sfdc-smunkelt/sfdcsm_filteredPicklist-documentation.html)
+
+---
+
+### Dynamic Related List
+
+A configurable related-list component for Service Document templates that renders records dynamically using a relationship definition, optional source-link field path, configurable columns, sorting, and filter criteria. It includes built-in loading, empty, and error states, and formats Date/Time/DateTime values for user locale and timezone to improve readability in generated documents.
+
+**Supported targets:** Service Document
+
+[Full documentation →](https://smunkelt.github.io/sfdc-smunkelt/sfdcsm_dynamicRelatedList-documentation.html)
