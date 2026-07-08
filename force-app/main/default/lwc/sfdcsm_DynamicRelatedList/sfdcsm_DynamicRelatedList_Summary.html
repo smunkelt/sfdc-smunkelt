@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sfdcsm_DynamicRelatedList - Component Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 2rem auto;
+            max-width: 1100px;
+            padding: 0 1rem;
+            color: #16325c;
+            background: #ffffff;
+        }
+
+        h1, h2, h3 {
+            color: #032d60;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #54698d;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            border: 1px solid #d8dde6;
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            background: #fdfdfd;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.35rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.75rem;
+        }
+
+        th, td {
+            border: 1px solid #d8dde6;
+            padding: 0.6rem;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f6f9;
+            color: #032d60;
+        }
+
+        code {
+            background: #f4f6f9;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            color: #032d60;
+        }
+
+        .example {
+            color: #0b5cab;
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>sfdcsm_DynamicRelatedList</h1>
+    <p class="subtitle">
+        Dynamic related-list component for <code>lightning__ServiceDocument</code>, powered by
+        <code>sfdcsm_DBDynamicRelatedListController</code>.
+    </p>
+
+    <section class="card">
+        <h2>Component Functionality (Summary)</h2>
+        <ul class="feature-list">
+            <li>Renders a configurable related list in Service Document templates.</li>
+            <li>Supports dynamic relationship linkage using current record Id or a configurable source path.</li>
+            <li>Allows dynamic column selection, custom labels, and per-column text alignment.</li>
+            <li>Supports sorting and optional filter criteria to constrain displayed rows.</li>
+            <li>Formats Date, Time, and DateTime values according to user locale/timezone settings.</li>
+            <li>Includes configurable title sizing and optional display when no rows are returned.</li>
+            <li>Provides built-in loading, empty-state, and error-state handling.</li>
+        </ul>
+    </section>
+
+    <section class="card">
+        <h2>Main Features</h2>
+        <h3>1) Flexible Data Linkage</h3>
+        <p>
+            The related-record query can link directly by current record Id, or by a field path on the source record.
+            This enables scenarios like starting from <code>ServiceAppointment</code> and linking via
+            <code>SFS_WorkOrder__c</code>.
+        </p>
+
+        <h3>2) Dynamic Datatable Definition</h3>
+        <p>
+            Columns, labels, and alignment are configured in template design properties instead of hardcoding.
+            Relationship columns (for example <code>Asset.Product2.Name</code>) are supported.
+        </p>
+
+        <h3>3) Query Controls</h3>
+        <p>
+            Sorting and filtering can be configured to match a document section use case, such as showing only records
+            in a specific status.
+        </p>
+
+        <h3>4) Locale-Aware Value Formatting</h3>
+        <p>
+            Date, Time, and DateTime values are normalized and rendered for user locale/timezone readability.
+            Time values that arrive as milliseconds are converted to user-friendly time output.
+        </p>
+    </section>
+
+    <section class="card">
+        <h2>Design Settings - Detailed Reference</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Purpose</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>relatedEntityDefinition</code></td>
+                    <td>
+                        Defines target object + lookup field used to link related records.
+                        Format: <code>ChildObjectApiName:LookupFieldApiName</code>.
+                    </td>
+                    <td>
+                        <code>WorkOrderLineItem:WorkOrderId</code>
+                        <span class="example">Query WorkOrderLineItem records where WorkOrderId = linkage value.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>sourceLinkFieldPath</code></td>
+                    <td>
+                        Optional field path on the current record used as linkage value.
+                        If blank, current <code>recordId</code> is used.
+                    </td>
+                    <td>
+                        <code>SFS_WorkOrder__c</code>
+                        <span class="example">On ServiceAppointment, link related records through the Work Order Id.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>relatedListTitle</code></td>
+                    <td>Header text shown above the datatable.</td>
+                    <td>
+                        <code>Installed Assets</code>
+                        <span class="example">Displays "Installed Assets" as section title.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>titleSize</code></td>
+                    <td>Controls title text size. Allowed values: <code>standard</code>, <code>small</code>, <code>medium</code>, <code>large</code>.</td>
+                    <td>
+                        <code>standard</code>
+                        <span class="example">Uses default style intended to align with native related-list look.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>showWhenEmpty</code></td>
+                    <td>
+                        When checked, the component still renders title + empty-state message if no records are returned.
+                        Default is unchecked/false.
+                    </td>
+                    <td>
+                        <code>true</code>
+                        <span class="example">Always show the section, even with zero matching rows.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>columnsToDisplay</code></td>
+                    <td>Comma-separated field paths used as datatable columns. Supports relationship paths.</td>
+                    <td>
+                        <code>LineItemNumber,Asset.Name,Asset.SerialNumber,Status</code>
+                        <span class="example">Displays a mixed set of direct and related fields.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>columnLabels</code></td>
+                    <td>
+                        Optional comma-separated labels matching column order.
+                        If omitted, labels are derived from field names.
+                    </td>
+                    <td>
+                        <code>Line #,Asset,Serial,Current Status</code>
+                        <span class="example">Overrides default labels with business-friendly text.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>columnAlignments</code></td>
+                    <td>Optional comma-separated alignments per column: <code>left</code>, <code>center</code>, <code>right</code>.</td>
+                    <td>
+                        <code>left,left,right,center</code>
+                        <span class="example">Aligns each column independently.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>sortField</code></td>
+                    <td>Field path used in ORDER BY clause.</td>
+                    <td>
+                        <code>LineItemNumber</code>
+                        <span class="example">Sort records by line item sequence.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>sortOrder</code></td>
+                    <td>Sort direction for <code>sortField</code>. Allowed values: <code>ASC</code>, <code>DESC</code>.</td>
+                    <td>
+                        <code>ASC</code>
+                        <span class="example">Shows oldest/smallest value first.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>filterCriteria</code></td>
+                    <td>
+                        Extra WHERE clause fragment appended to base linkage filter.
+                        Do not include the <code>WHERE</code> keyword.
+                    </td>
+                    <td>
+                        <code>Status = 'New' AND IsDeleted = false</code>
+                        <span class="example">Only includes active records with status New.</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Complete Example Configuration</h2>
+        <p>
+            Example for a ServiceAppointment template that shows WorkOrderLineItems for the parent Work Order:
+        </p>
+        <ul>
+            <li><code>relatedEntityDefinition = WorkOrderLineItem:WorkOrderId</code></li>
+            <li><code>sourceLinkFieldPath = SFS_WorkOrder__c</code></li>
+            <li><code>relatedListTitle = Work Order Line Items</code></li>
+            <li><code>titleSize = standard</code></li>
+            <li><code>showWhenEmpty = false</code></li>
+            <li><code>columnsToDisplay = LineItemNumber,Asset.Name,Asset.SerialNumber,Status</code></li>
+            <li><code>columnLabels = Line #,Asset,Serial Number,Status</code></li>
+            <li><code>columnAlignments = left,left,left,center</code></li>
+            <li><code>sortField = LineItemNumber</code></li>
+            <li><code>sortOrder = ASC</code></li>
+            <li><code>filterCriteria = Status != 'Canceled'</code></li>
+        </ul>
+    </section>
+    <section class="card">
+        <h2>Exact Artifact Names</h2>
+        <ul>
+            <li>Component: <code>sfdcsm_DynamicRelatedList</code></li>
+            <li>Controller: <code>sfdcsm_DBDynamicRelatedListController</code></li>
+            <li>Test Class: <code>sfdcsm_DBDynamicRelatedListControllerTest</code></li>
+        </ul>
+    </section>
+</body>
+</html>

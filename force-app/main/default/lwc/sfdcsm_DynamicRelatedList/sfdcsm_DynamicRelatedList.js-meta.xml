@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__ServiceDocument</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__ServiceDocument">
+            <property name="relatedEntityDefinition" type="String" label="Related Entity Definition" description="Format: ChildObjectApiName:LookupFieldApiName (e.g. WorkOrderLineItem:WorkOrderId)." />
+            <property name="sourceLinkFieldPath" type="String" label="Source Link Field Path" description="Optional field path on the current record used as the linkage value (e.g. SFS_WorkOrder__c or SFS_WorkOrder__r.ParentWorkOrderId). Defaults to current record Id when blank." />
+            <property name="relatedListTitle" type="String" label="Related List Title" default="Related Records" />
+            <property name="titleSize" type="String" label="Title Size" default="standard" datasource="standard,small,medium,large" description="Title text size. Use standard to match native related-list sizing." />
+            <property name="showWhenEmpty" type="Boolean" label="Show component when list is empty" default="false" description="When selected, shows title and empty-state message even if no related records are found." />
+            <property name="columnsToDisplay" type="String" label="Columns to Display" description="Comma-separated list of field API names to display. Supports relationships, e.g. Asset.Name,Asset.Product2.Name." />
+            <property name="columnLabels" type="String" label="Column Labels" description="Comma-separated list of display labels. If blank, field names are used." />
+            <property name="columnAlignments" type="String" label="Column Alignments" description="Comma-separated list of alignments per column: left,center,right." />
+            <property name="sortField" type="String" label="Sort Field" description="Field API name used for sorting. Supports relationship field paths." />
+            <property name="sortOrder" type="String" label="Sort Order" default="ASC" datasource="ASC,DESC" />
+            <property name="filterCriteria" type="String" label="Filter Criteria" description="Additional SOQL WHERE criteria (without WHERE). Example: Status = 'New'." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
